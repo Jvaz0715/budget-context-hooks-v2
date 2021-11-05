@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { ListsContext } from "../../context/context";
 
 function ExpenseList() {
-   const { expenseArray } = useContext(ListsContext);
+   const { expenseArray, handleDeleteExpense } = useContext(ListsContext);
    
    return (
       <div style={{border:"2px solid green", width: "50%"}}>
@@ -12,7 +12,7 @@ function ExpenseList() {
                return (
                   <li key={index}>
                      {expense.description} {expense.amount}
-                     <button>Delete</button>
+                     <button onClick={() =>handleDeleteExpense(index)}>Delete</button>
                   </li>
                )
             })}

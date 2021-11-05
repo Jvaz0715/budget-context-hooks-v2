@@ -43,8 +43,22 @@ function App() {
     }
   }
 
-  function handleDeleteIncome(index) {}
-  function handleDeleteExpense(index) {}
+  function handleDeleteIncome(index) {
+    let incomeItemToDelete = incomeArray[index];
+    setIncome(income - incomeItemToDelete.amount);
+
+    let newIncomeArray = [...incomeArray];
+    newIncomeArray.splice(index, 1);
+    setIncomeArray(newIncomeArray);
+
+  }
+  function handleDeleteExpense(index) {
+    let expenseItemToDelete = expenseArray[index];
+    setExpense(expense - expenseItemToDelete.amount);
+    let newExpenseArray = [...expenseArray];
+    newExpenseArray.splice(index, 1);
+    setExpenseArray(newExpenseArray);
+  };
 
   const HeaderContextValue = {
     income,
