@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 // get our context files
 import { HeaderContext, InputContext, ListsContext, } from "./context/context";
 // get our components
@@ -7,15 +7,15 @@ import { Header, Inputs, Lists } from "./components";
 import "./App.css";
 
 function App() {
-  const [income, setIncome] = useState(0);
-  const [expense, setExpense] = useState(0);
+  const [income, setIncome] = useState(getHeaderInitialValue("income"));
+  const [expense, setExpense] = useState(getHeaderInitialValue("expense"));
 
   const [option, setOption] = useState("+");
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState(0);
 
-  const [incomeArray, setIncomeArray] = useState([]);
-  const [expenseArray, setExpenseArray] = useState([]);
+  const [incomeArray, setIncomeArray] = useState(getListInitialValue("incomeArray"));
+  const [expenseArray, setExpenseArray] = useState(getListInitialValue("expenseArray"));
 
   function handleOption(value) {
     setOption(value);
@@ -60,9 +60,41 @@ function App() {
     setExpenseArray(newExpenseArray);
   };
 
+  function reset() {
+    setIncome(0)
+    setExpense(0)
+    setIncomeArray([])
+    setExpenseArray([])
+  };
+
+  function getListInitialValue(value) {
+    return window.localStorage.getItem(value)
+      ? JSON.parse(window.localStorage.getItem(value))
+      : [];
+  }
+
+  function getHeaderInitialValue(value) {
+    return window.localStorage.getItem(value)
+      ? Number(window.localStorage.getItem(value))
+      : 0;
+  }
+
+  useEffect(() => {
+    SetLocalStorage();
+  }, [income, expense, incomeArray, expenseArray]);
+
+  function SetLocalStorage() {
+    window.localStorage.setItem("income", income);
+    window.localStorage.setItem("expense", expense);
+    window.localStorage.setItem("incomeArray", JSON.stringify(incomeArray));
+    window.localStorage.setItem("expenseArray", JSON.stringify(expenseArray));
+    
+  };
+
   const HeaderContextValue = {
     income,
-    expense
+    expense,
+    reset
   };
 
   const InputContextValue = {
